@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Employee Leave Management{% endblock %}</title>
+
+    <!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Additional CSS -->
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="font-bold text-2xl hover:text-gray-200 transition">
+                <a href="{% url 'home' %}">Leave Management</a>
+            </div>
+            <div class="space-x-6 flex items-center">
+                <a href="{% url 'home' %}" class="hover:text-gray-200 transition">Home</a>
+                <a href="{% url 'my-leaves' %}" class="hover:text-gray-200 transition">My Leaves</a>
+                {% if user.is_staff %}
+                    <a href="{% url 'all-leaves-hr' %}" class="bg-white text-blue-700 px-3 py-1 rounded shadow hover:bg-gray-100 transition">HR Panel</a>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="hover:text-gray-200 transition">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="hover:text-gray-200 transition">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-16 shadow-inner">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Welcome to the Employee Leave Management</h1>
+            <p class="text-lg md:text-xl text-gray-100 mb-6">Manage your leaves efficiently and keep track of approvals.</p>
+            <a href="{% url 'my-leaves' %}" class="bg-white text-blue-700 px-6 py-3 rounded shadow-lg font-semibold hover:bg-gray-100 transition">View My Leaves</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 -mt-12">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 p-6 mt-16">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <p>&copy; {{ year }} Leave Management System. All rights reserved.</p>
+            <div class="flex space-x-4 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white transition">Privacy</a>
+                <a href="#" class="hover:text-white transition">Terms</a>
+                <a href="#" class="hover:text-white transition">Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS if needed -->
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

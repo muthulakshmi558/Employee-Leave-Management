@@ -1,0 +1,13 @@
+{% extends "leaves/Layout/base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-10 bg-white p-6 rounded shadow">
+    <h2 class="text-2xl font-bold mb-4">Profile</h2>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Staff:</strong> {{ user.is_staff }}</p>
+    <p><strong>Superuser:</strong> {{ user.is_superuser }}</p>
+</div>
+{% endblock %}

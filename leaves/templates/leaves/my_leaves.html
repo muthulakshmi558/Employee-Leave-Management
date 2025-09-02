@@ -1,0 +1,36 @@
+{% extends "leaves/Layout/base.html" %}
+
+{% block title %}My Leaves{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">My Leave Requests</h2>
+<a href="{% url 'leave-create' %}" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 inline-block">New Leave Request</a>
+
+<table class="min-w-full bg-white rounded shadow">
+    <thead>
+        <tr class="bg-gray-200">
+            <th class="p-2">Reason</th>
+            <th class="p-2">Status</th>
+            <th class="p-2">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for leave in leaves %}
+        <tr class="border-b">
+            <td class="p-2">{{ leave.reason }}</td>
+            <td class="p-2">{{ leave.status }}</td>
+            <td class="p-2 space-x-2">
+                {% if leave.status == 'PENDING' %}
+                <a href="{% url 'leave-update' leave.id %}" class="text-blue-600">Edit</a>
+                <a href="{% url 'leave-delete' leave.id %}" class="text-red-600">Delete</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3" class="p-2 text-center">No leave requests found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

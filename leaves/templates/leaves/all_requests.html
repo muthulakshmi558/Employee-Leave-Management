@@ -1,0 +1,41 @@
+{% extends "leaves/Layout/base.html" %}
+
+{% block title %}HR Panel - Leave Requests{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">All Leave Requests</h2>
+
+<table class="min-w-full bg-white rounded shadow">
+    <thead>
+        <tr class="bg-gray-200">
+            <th class="p-2">Employee</th>
+            <th class="p-2">Reason</th>
+            <th class="p-2">Status</th>
+            <th class="p-2">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for leave in leaves %}
+        <tr class="border-b">
+            <td class="p-2">{{ leave.employee.username }}</td>
+            <td class="p-2">{{ leave.reason }}</td>
+            <td class="p-2">{{ leave.status }}</td>
+            <td class="p-2 space-x-2">
+                {% if leave.status == 'PENDING' %}
+                <form method="post" action="{% url 'leave-approve-reject' leave.id 'approve' %}" class="inline">{% csrf_token %}
+                    <button class="text-green-600">Approve</button>
+                </form>
+                <form method="post" action="{% url 'leave-approve-reject' leave.id 'reject' %}" class="inline">{% csrf_token %}
+                    <button class="text-red-600">Reject</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="p-2 text-center">No leave requests.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
